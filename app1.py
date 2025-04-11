@@ -1,56 +1,28 @@
 import os
+import gdown
+import uuid
 import requests
+import numpy as np
+import onnxruntime as ort
+import matplotlib.pyplot as plt
+import seaborn as sns
+from flask import Flask, request, render_template
+from PIL import Image
 
-# --- Download model from Google Drive (with confirmation token handling) ---
+# --- Download model using gdown (Google Drive large file support) ---
 def download_model_from_drive():
-    import re
-
     model_path = "model.onnx"
-    if os.path.exists(model_path):
-        return
-
-    print("Downloading model.onnx from Google Drive...")
-    file_id = "18bVmR5rI9rgDg_cFnr9HSVpRZxYQu6Y8"
-    session = requests.Session()
-    base_url = "https://drive.google.com/uc?export=download"
-
-    response = session.get(base_url, params={'id': file_id}, stream=True)
-    token = get_confirm_token(response)
-
-    if token:
-        params = {'id': file_id, 'confirm': token}
-        response = session.get(base_url, params=params, stream=True)
-
-    save_response_content(response, model_path)
-    print("Model downloaded successfully.")
-
-def get_confirm_token(response):
-    for key, value in response.cookies.items():
-        if key.startswith("download_warning"):
-            return value
-    return None
-
-def save_response_content(response, destination):
-    CHUNK_SIZE = 32768
-    with open(destination, "wb") as f:
-        for chunk in response.iter_content(CHUNK_SIZE):
-            if chunk:
-                f.write(chunk)
+    if not os.path.exists(model_path):
+        print("Downloading model.onnx from Google Drive using gdown...")
+        file_id = "18bVmR5rI9rgDg_cFnr9HSVpRZxYQu6Y8"
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, model_path, quiet=False)
+        print("Model downloaded successfully.")
 
 download_model_from_drive()
 
 # --- Flask App Setup ---
-from flask import Flask, request, render_template
-import numpy as np
-import onnxruntime as ort
-from PIL import Image
-import matplotlib.pyplot as plt
-import seaborn as sns
-import uuid
-
 app = Flask(__name__)
-
-# Ensure folders exist
 os.makedirs("static/uploads", exist_ok=True)
 os.makedirs("static/charts", exist_ok=True)
 
