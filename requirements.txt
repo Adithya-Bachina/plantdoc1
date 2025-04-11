@@ -1,0 +1,6 @@
+Flask
+onnxruntime
+Pillow
+matplotlib
+seaborn
+numpy

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Feedback - Plant Disease Classifier{% endblock %}
+{% block content %}
+    <div class="container fade-in feedback-container">
+        <h1 class="title glitch">Feedback Hub</h1>
+        <p class="subtitle bounce-in">Your input helps us grow! Share your thoughts, suggestions, or experiences with PlantDoc.</p>
+
+        {% if success %}
+            <p class="success-msg bounce-in">Thank you for your feedback! Submission complete.</p>
+            <div class="progress-bar"><span class="progress-fill"></span></div>
+        {% endif %}
+        {% if error %}
+            <p class="error-msg bounce-in">{{ error }}</p>
+        {% endif %}
+
+        <form action="{{ url_for('feedback') }}" method="post" class="feedback-form glass-card" id="feedback-form">
+            <input type="email" name="email" placeholder="Your Email" required class="input-field stagger">
+            <input type="tel" name="phone" placeholder="Your Phone Number" required class="input-field stagger" pattern="[0-9]{10}" title="Please enter a 10-digit phone number">
+            <textarea name="message" placeholder="Tell us what you think..." required class="input-field stagger textarea-large"></textarea>
+            <button type="submit" class="btn primary-btn ripple">Submit Feedback</button>
+        </form>
+
+        <section class="feedback-tips glass-card">
+            <h3 class="bounce-in">Why Your Feedback Matters</h3>
+            <p class="stagger">Your insights help us improve PlantDoc’s accuracy, usability, and features. Whether it’s a bug report, a feature request, or just a kind word, we’re all ears!</p>
+            <h4 class="stagger">Tips for Great Feedback:</h4>
+            <ul class="tips-list">
+                <li class="stagger">Be specific about your experience.</li>
+                <li class="stagger">Mention what you love or what could be better.</li>
+                <li class="stagger">Suggest new features you’d like to see!</li>
+            </ul>
+        </section>
+
+        <h3 class="bounce-in">Recent Feedback</h3>
+        <div class="feedback-list">
+            {% for feedback in feedback_list %}
+                <div class="feedback-item glass-card stagger">
+                    <p><strong>{{ feedback.email }} ({{ feedback.phone }}):</strong> {{ feedback.message }}</p>
+                </div>
+            {% else %}
+                <p class="stagger">No feedback yet. Be the first to share your thoughts!</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

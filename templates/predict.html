@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Predict - Plant Disease Classifier{% endblock %}
+{% block content %}
+    <div class="container fade-in predict-container">
+        <h1 class="title glitch">Diagnose Your Plant</h1>
+        <p class="subtitle bounce-in">Snap a pic, upload it, and let PlantDoc work its magic!</p>
+
+        <section class="predict-intro glass-card">
+            <h2 class="highlight bounce-in">How It Works</h2>
+            <p class="stagger">Upload a clear photo of your plant’s leaves or affected area. Our AI will analyze it and deliver a diagnosis faster than you can say "photosynthesis"!</p>
+        </section>
+
+        <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data" class="predict-form glass-card">
+            <div class="drop-zone stagger" id="dropZone">
+                <p>Drag & Drop Your Image Here</p>
+                <p>or Click to Upload</p>
+                <input type="file" name="file" id="file-upload" accept="image/*" required>
+            </div>
+            <div class="image-preview" id="imagePreview">
+                <img id="previewImg" src="#" alt="Image Preview" class="uploaded-image">
+            </div>
+            <button type="submit" class="btn primary-btn ripple stagger" id="submitBtn">Get Diagnosis</button>
+        </form>
+
+        <section class="tips glass-card">
+            <h2 class="highlight bounce-in">Tips for Best Results</h2>
+            <ul class="tips-list">
+                <li class="stagger">Use a well-lit photo—no blurry shots!</li>
+                <li class="stagger">Focus on the affected area of the plant.</li>
+                <li class="stagger">Avoid busy backgrounds for clearer analysis.</li>
+            </ul>
+        </section>
+    </div>
+{% endblock %}

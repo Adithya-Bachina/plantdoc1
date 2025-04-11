@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}About Us - Plant Disease Classifier{% endblock %}
+{% block content %}
+    <div class="container fade-in about-container">
+        <h1 class="title glitch">About PlantDoc</h1>
+        <p class="subtitle bounce-in">A student-powered mission to rescue plants with tech brilliance!</p>
+
+        <section class="mission glass-card">
+            <h2 class="highlight bounce-in">Our Journey</h2>
+            <p class="stagger">We’re a team of passionate students who came together in 2025 to tackle a real-world problem: plant diseases. Armed with AI, creativity, and a love for greenery, we built PlantDoc to help plant lovers everywhere diagnose and save their leafy friends. It all started with a wild idea in a college classroom—and a lot of coffee!</p>
+            <p class="stagger">From late-night coding sessions to heated debates over UI colors, we’ve poured our hearts into this project. Fun fact: Our first demo crashed spectacularly, but we turned it into a learning moment—and a pretty decent app!</p>
+        </section>
+
+        <section class="team glass-card">
+            <h2 class="highlight bounce-in">Meet the PlantDoc Crew</h2>
+            <p class="stagger">We’re a tight-knit trio from [Your College Name], blending tech skills and plant passion. Hover over us to see what makes us tick!</p>
+
+            <div class="team-grid">
+                <div class="team-card stagger flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Adithya</h3>
+                            <p>Member</p>
+                            <p class="reg-id">221FA18176</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p>Known for debugging code at lightning speed—once fixed a crashing app during a power outage using just his phone’s flashlight!</p>
+                            <p><strong>Role:</strong> Handles the backend logic, ensuring PlantDoc runs smoothly.</p>
+                            <p><a href="mailto:adithyabachina@gmail.com" class="contact-link">Say Hi!</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card stagger flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Sashank</h3>
+                            <p>Leader</p>
+                            <p class="reg-id">221FA18184</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p>A plant whisperer who’s grown a mini forest in his dorm room—claims it inspires his leadership vision.</p>
+                            <p><strong>Role:</strong> Guides the team, coordinating efforts and dreaming up new features.</p>
+                            <p><a href="mailto:namburisashank652@gmail.com" class="contact-link">Say Hi!</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card stagger flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <h3>Krishna Teja</h3>
+                            <p>Member</p>
+                            <p class="reg-id">221FA18186</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p>Once sketched an entire UI mockup on a napkin during lunch—now it’s part of PlantDoc’s design!</p>
+                            <p><strong>Role:</strong> Brings the app’s visuals to life with creativity and flair.</p>
+                            <p><a href="mailto:krishnatejavedela186@gmail.com" class="contact-link">Say Hi!</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="vision glass-card">
+            <h2 class="highlight bounce-in">Our Goal</h2>
+            <p class="stagger">We aim to make plant care accessible and fun for everyone—students, gardeners, or anyone with a leafy buddy. PlantDoc is our first step toward a greener, smarter future, and we’re just getting started!</p>
+            <a href="{{ url_for('predict_page') }}" class="btn primary-btn ripple stagger">Diagnose Your Plant</a>
+        </section>
+    </div>
+{% endblock %}

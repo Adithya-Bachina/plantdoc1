@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Result - Plant Disease Classifier{% endblock %}
+{% block content %}
+    <div class="container fade-in result-container">
+        <h1 class="title glitch">Diagnosis Result</h1>
+        <p class="subtitle bounce-in">Here’s what PlantDoc found about your plant!</p>
+
+        <div class="result-card glass-card flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <h2 class="highlight">Top Prediction</h2>
+                    <p class="prediction-title">{{ prediction }}</p>
+                </div>
+                <div class="flip-card-back">
+                    <h3>Confidence</h3>
+                    <p>{{ "%.2f" % (top_5_predictions[0][1] * 100) }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-details glass-card">
+            <img src="{{ image_path }}" alt="Uploaded Image" class="uploaded-image stagger">
+            <h3 class="bounce-in">Top 5 Predictions</h3>
+            <ul class="prediction-list">
+                {% for label, prob in top_5_predictions %}
+                    <li class="stagger prediction-item">{{ label }}: <span class="prob">{{ "%.2f" % (prob * 100) }}%</span></li>
+                {% endfor %}
+            </ul>
+            <img src="{{ chart_path }}" alt="Bar Chart" class="chart-image stagger pulse">
+        </div>
+
+        <section class="next-steps glass-card">
+            <h3 class="bounce-in">What’s Next?</h3>
+            <p class="stagger">Based on the diagnosis, here are some steps you can take:</p>
+            <ul class="tips-list">
+                <li class="stagger">Consult a local botanist for confirmation.</li>
+                <li class="stagger">Research treatment options for <strong>{{ prediction }}</strong>.</li>
+                <li class="stagger">Monitor your plant and upload another image if symptoms change.</li>
+            </ul>
+        </section>
+
+        <a href="{{ url_for('predict_page') }}" class="btn secondary-btn ripple bounce-in">Try Another Image</a>
+    </div>
+{% endblock %}

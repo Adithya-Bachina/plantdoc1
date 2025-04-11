@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Home - Plant Disease Classifier{% endblock %}
+{% block content %}
+    <div class="container fade-in home-container">
+        <div class="hero">
+            <h1 class="title glitch">Welcome to PlantDoc</h1>
+            <p class="subtitle bounce-in">Diagnose plant diseases with AI magic—fast, fun, and free!</p>
+            <a href="{{ url_for('predict_page') }}" class="btn primary-btn ripple bounce-in">Start Diagnosing Now</a>
+        </div>
+
+        <section class="features glass-card">
+            <h2 class="highlight bounce-in">Why PlantDoc?</h2>
+            <div class="feature-grid">
+                <div class="feature-item stagger">
+                    <h3>Instant Results</h3>
+                    <p>Upload a photo and get a diagnosis in seconds—no green thumb required!</p>
+                </div>
+                <div class="feature-item stagger">
+                    <h3>AI-Powered</h3>
+                    <p>Our smart tech spots diseases with pinpoint accuracy, backed by student ingenuity.</p>
+                </div>
+                <div class="feature-item stagger">
+                    <h3>Easy & Fun</h3>
+                    <p>A sleek design and playful vibes make plant care a breeze.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-teaser glass-card">
+            <h2 class="highlight bounce-in">Built by Plant Lovers</h2>
+            <p class="stagger">We’re a trio of students—Adithya, Sashank, and Krishna Teja—passionate about plants and tech. Explore our story and see how we’re saving greenery one app at a time!</p>
+            <a href="{{ url_for('about') }}" class="btn secondary-btn ripple stagger">Meet the Team</a>
+        </section>
+    </div>
+{% endblock %}

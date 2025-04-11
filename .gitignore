@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+model.onnx
+*.pkl
+*.h5
+.DS_Store
+.env
