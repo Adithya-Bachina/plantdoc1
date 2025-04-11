@@ -2,6 +2,9 @@ services:
   - type: web
     name: plantdoc-flask-app
     env: python
-    buildCommand: ""
-    startCommand: gunicorn app:app
-    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app1:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
