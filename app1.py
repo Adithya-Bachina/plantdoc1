@@ -9,17 +9,29 @@ import seaborn as sns
 from flask import Flask, request, render_template
 from PIL import Image
 
-# --- Download model using gdown (Google Drive large file support) ---
-def download_model_from_drive():
+# --- Google Drive shared link for ONNX model ---
+GOOGLE_DRIVE_LINK = "https://drive.google.com/file/d/18bVmR5rI9rgDg_cFnr9HSVpRZxYQu6Y8/view?usp=sharing"
+
+def extract_file_id(drive_link):
+    if "id=" in drive_link:
+        return drive_link.split("id=")[1].split("&")[0]
+    elif "/file/d/" in drive_link:
+        return drive_link.split("/file/d/")[1].split("/")[0]
+    else:
+        raise ValueError("Invalid Google Drive link")
+
+# --- Download ONNX model if not present ---
+def download_model_from_drive(drive_link):
     model_path = "model.onnx"
     if not os.path.exists(model_path):
-        print("Downloading model.onnx from Google Drive using gdown...")
-        file_id = "18bVmR5rI9rgDg_cFnr9HSVpRZxYQu6Y8"
+        file_id = extract_file_id(drive_link)
         url = f"https://drive.google.com/uc?id={file_id}"
+        print("Downloading model from Google Drive...")
         gdown.download(url, model_path, quiet=False)
-        print("Model downloaded successfully.")
+        print("✅ Model downloaded successfully.")
+    return model_path
 
-download_model_from_drive()
+model_path = download_model_from_drive(GOOGLE_DRIVE_LINK)
 
 # --- Flask App Setup ---
 app = Flask(__name__)
@@ -27,7 +39,6 @@ os.makedirs("static/uploads", exist_ok=True)
 os.makedirs("static/charts", exist_ok=True)
 
 # Load ONNX model
-model_path = "model.onnx"
 try:
     session = ort.InferenceSession(model_path)
     input_name = session.get_inputs()[0].name
@@ -70,14 +81,11 @@ def predict():
     if not session:
         return "Model not loaded", 500
 
-    if 'file' not in request.files:
+    if 'file' not in request.files or request.files['file'].filename == '':
         return "No image uploaded", 400
 
-    file = request.files['file']
-    if file.filename == '':
-        return "No file selected", 400
-
     try:
+        file = request.files['file']
         filename = f"{uuid.uuid4()}.jpg"
         image_path = os.path.join("static/uploads", filename)
         file.save(image_path)
@@ -88,6 +96,10 @@ def predict():
         img_array = np.expand_dims(img_array, axis=0)
 
         outputs = session.run(None, {input_name: img_array})[0][0]
+
+        if len(outputs) < 5:
+            return "Model output is shorter than expected. Check model class size.", 500
+
         top_5_indices = outputs.argsort()[-5:][::-1]
         top_5_labels = [class_labels[i] for i in top_5_indices]
         top_5_probs = [float(outputs[i]) for i in top_5_indices]
